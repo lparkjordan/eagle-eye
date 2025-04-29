@@ -3,30 +3,30 @@
  *  Full License at "scripts/licenses/DnD5e-Helpers-LICENSE"
  */
 
-import { CONFIG } from './config.mjs'
+import { EagleEyeConfig } from './config.mjs'
 
 export class logger {
   static NAME = this.name;
 
   static info(...args) {
-    console.log(`${COMMON?.DATA?.title || "" }  | `, ...args);
+    console.log(`${EagleEyeConfig?.MODULE?.NAME || "" } | `, ...args);
   }
 
   static debug(...args) {
-    if (CONFIG.setting('debug'))
+    if (EagleEyeConfig.setting('debug'))
       this.info("DEBUG | ", ...args);
   }
 
   static error(notify, ...args) {
-    console.error(`${COMMON?.DATA?.title || "" } | ERROR | `, ...args);
+    console.error(`${EagleEyeConfig?.MODULE?.NAME || "" } | ERROR | `, ...args);
 
     if(notify) {
-      ui.notifications.error(`${COMMON?.DATA?.title || "" } | ERROR | ${args[0]}`);
+      ui.notifications.error(`${EagleEyeConfig?.MODULE?.NAME || "" } | ERROR | ${args[0]}`);
     }
   }
 
   static warning(notify, ...args) {
-    console.warn(`${COMMON?.DATA?.title || "" } | WARNING | `, ...args);
+    console.warn(`${EagleEyeConfig?.MODULE?.NAME || "" } | WARNING | `, ...args);
     if(notify) this.warn(...args)
   }
 
@@ -39,17 +39,6 @@ export class logger {
   }
 
   static register(){
-    logger.settings()
-  }
-
-  static settings(){
-    const config = true;
-    const settingsData = {
-      debug : {
-        scope: "client", config, default: false, type: Boolean,
-      },
-    };
-
-    CONFIG.applySettings(settingsData);
+    return
   }
 }

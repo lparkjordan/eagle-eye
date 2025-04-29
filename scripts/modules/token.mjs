@@ -1,3 +1,5 @@
+import { EagleEyeConfig } from '../config.mjs'
+import { logger } from '../logger.mjs'
 
 export class EagleEyeToken {
 
@@ -13,7 +15,7 @@ export class EagleEyeToken {
     libWrapper.register("eagle-eye", "Token.prototype.isVisible", this.isVisible, "OVERRIDE")
     libWrapper.register("eagle-eye", "Token.prototype.initializeVisionSource", this.initializeVisionSource, "OVERRIDE")
     libWrapper.register("eagle-eye", "Token.prototype._destroy", function (wrapped, ...args) {
-      console.log("token _destroy called");
+      logger.debug("token _destroy called");
       this.vision2?.visionMode?.deactivate(this.vision2);
       this.vision2?.destroy();
       this.vision2 = undefined;
@@ -30,7 +32,7 @@ export class EagleEyeToken {
 
 
   static isVisible() {
-    console.log("isVisible called")
+    logger.debug("isVisible called")
     // Clear the detection filter
     this.detectionFilter = null;
 
@@ -49,7 +51,7 @@ export class EagleEyeToken {
   }
 
   static initializeVisionSource({deleted=false}={}) {
-    console.log("initializeVisionSource called")
+    logger.debug("initializeVisionSource called")
     // Remove a deleted vision source from the active collection
     if ( deleted || !this._isVisionSource() ) {
       if ( !this.vision ) return;
