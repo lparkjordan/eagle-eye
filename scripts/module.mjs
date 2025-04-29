@@ -22,6 +22,12 @@ export class MODULE {
   static build({debug = false} = {}) {
 
     /* all startup tasks needed before sub module initialization */
+    // Check for presence of libWrapper
+    Hooks.once('ready', () => {
+    if(!game.modules.get('lib-wrapper')?.active && game.user.isGM)
+        ui.notifications.error("Module " + CONFIG.MODULE.NAME + " requires the 'libWrapper' module. Please install and activate it.");
+    });
+
 
     /* sub module init */
     this._initModules(debug);
