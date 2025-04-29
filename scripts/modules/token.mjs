@@ -94,15 +94,16 @@ export class EagleEyeToken {
       this.vision4.blinded[state] = blindedStates[state];
     }
 
-    const baseVisionSourceData = this._getVisionSourceData()
+    const baseData = this._getVisionSourceData()
+    logger.debug(baseData)
 
-    this.vision.initialize({...baseVisionSourceData, x: this.x + 2, y: this.y + 2});
+    this.vision.initialize({...baseData,  x: baseData.x - this.w/2 + 2, y: baseData.y - this.h/2 + 2});
     this.vision.add();
-    this.vision2.initialize({...baseVisionSourceData, x: this.x + this.w - 2, y: this.y + 2});
+    this.vision2.initialize({...baseData, x: baseData.x + this.w/2 - 2, y: baseData.y - this.h/2 + 2});
     this.vision2.add();
-    this.vision3.initialize({...baseVisionSourceData, x: this.x + this.w - 2, y: this.y + this.h - 2});
+    this.vision3.initialize({...baseData, x: baseData.x + this.w/2 - 2, y: baseData.y + this.h/2 - 2});
     this.vision3.add();
-    this.vision4.initialize({...baseVisionSourceData, x: this.x + 2, y: this.y + this.h - 2});
+    this.vision4.initialize({...baseData, x: baseData.x - this.w/2 + 2, y: baseData.y + this.h/2 - 2});
     this.vision4.add();
 
 
