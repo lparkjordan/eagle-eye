@@ -12,8 +12,8 @@ export class EagleEyeToken {
   static _super = {};
 
   static patch() {
-    libWrapper.register("eagle-eye", "Token.prototype.isVisible", this.isVisible, "OVERRIDE")
-    libWrapper.register("eagle-eye", "Token.prototype.initializeVisionSource", this.initializeVisionSource, "OVERRIDE")
+    libWrapper.register("eagle-eye", "Token.prototype.isVisible", this.isVisible, "OVERRIDE");
+    libWrapper.register("eagle-eye", "Token.prototype.initializeVisionSource", this.initializeVisionSource, "OVERRIDE");
     libWrapper.register("eagle-eye", "Token.prototype._destroy", function (wrapped, ...args) {
       logger.debug("token _destroy called");
       this.vision2?.visionMode?.deactivate(this.vision2);
@@ -27,7 +27,7 @@ export class EagleEyeToken {
       this.vision4 = undefined;
       let result = wrapped(...args);
       return result;
-    }, "WRAPPER")
+    }, "WRAPPER");
   }
 
 
@@ -94,18 +94,38 @@ export class EagleEyeToken {
       this.vision4.blinded[state] = blindedStates[state];
     }
 
-    const baseData = this._getVisionSourceData()
-    logger.debug(baseData)
+    const baseData = this._getVisionSourceData();
+    const sightRadiusUnadjusted = this.document.sight.range * canvas.dimensions.distancePixels;
+    logger.debug(baseData);
 
-    this.vision.initialize({...baseData,  x: baseData.x - this.w/2 + 2, y: baseData.y - this.h/2 + 2});
+    const visionColors = EagleEyeConfig.setting('debug') ? [0xFF0000, 0xFFE119, 0x00FF00, 0x0000FF] : [baseData.color, baseData.color, baseData.color, baseData.color];
+
+    if (EagleEyeConfig.setting('visionLocation') == 1) {
+      // Corner vision
+      this.vision.initialize({...baseData,  radius: sightRadiusUnadjusted, x: baseData.x + this.w/2 - 2, y: baseData.y + this.h/2 - 2, color: visionColors[0]});
+      this.vision2.initialize({...baseData, radius: sightRadiusUnadjusted, x: baseData.x + this.w/2 - 2, y: baseData.y - this.h/2 + 2, color: visionColors[1]});
+      this.vision3.initialize({...baseData, radius: sightRadiusUnadjusted, x: baseData.x - this.w/2 + 2, y: baseData.y - this.h/2 + 2, color: visionColors[2]});
+      this.vision4.initialize({...baseData, radius: sightRadiusUnadjusted, x: baseData.x - this.w/2 + 2, y: baseData.y + this.h/2 - 2, color: visionColors[3]});
+
+      this.vision2.add();
+      this.vision3.add();
+      this.vision4.add();
+    } else if (EagleEyeConfig.setting('visionLocation') == 2) {
+      // Edge vision
+      this.vision.initialize({...baseData,  radius: sightRadiusUnadjusted, y: baseData.y + this.h/2 - 2, color: visionColors[0]});
+      this.vision2.initialize({...baseData, radius: sightRadiusUnadjusted, x: baseData.x + this.w/2 + 2, color: visionColors[1]});
+      this.vision3.initialize({...baseData, radius: sightRadiusUnadjusted, y: baseData.y - this.h/2 - 2, color: visionColors[2]});
+      this.vision4.initialize({...baseData, radius: sightRadiusUnadjusted, x: baseData.x - this.w/2 - 2, color: visionColors[3]});
+
+      this.vision2.add();
+      this.vision3.add();
+      this.vision4.add();
+    } else {
+      // Default (Center) vision
+      this.vision.initialize(baseData);
+    }
+
     this.vision.add();
-    this.vision2.initialize({...baseData, x: baseData.x + this.w/2 - 2, y: baseData.y - this.h/2 + 2});
-    this.vision2.add();
-    this.vision3.initialize({...baseData, x: baseData.x + this.w/2 - 2, y: baseData.y + this.h/2 - 2});
-    this.vision3.add();
-    this.vision4.initialize({...baseData, x: baseData.x - this.w/2 + 2, y: baseData.y + this.h/2 - 2});
-    this.vision4.add();
-
 
     canvas.perception.update({
       initializeVisionModes: !wasVision

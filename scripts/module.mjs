@@ -5,6 +5,7 @@
 import { logger } from './logger.mjs';
 import { EagleEyeConfig } from './config.mjs'
 import { EagleEyeToken } from './modules/token.mjs'
+import { EagleEyeDetectionMode } from './modules/detection-mode.mjs'
 
 export class MODULE {
 
@@ -12,6 +13,7 @@ export class MODULE {
     logger,
     EagleEyeConfig,
     EagleEyeToken,
+    EagleEyeDetectionMode,
   }
 
   static SUB_APPS = {
@@ -45,6 +47,18 @@ export class MODULE {
         default: false, 
         type: Boolean
       },
+      visionLocation : {
+        scope: "world",
+        config: true,
+        default: 1,
+        type: Number,
+        requiresReload: true, // Would prefer to just trigger a visibility update, but that doesn't regenerate sources from tokens.
+        choices: {
+          0: `${EagleEyeConfig.MODULE.NAME}.settings.visionLocation.center`,
+          1: `${EagleEyeConfig.MODULE.NAME}.settings.visionLocation.corners`,
+          2: `${EagleEyeConfig.MODULE.NAME}.settings.visionLocation.edges`
+        }
+      }
     };
 
     EagleEyeConfig.applySettings(settingsData);
