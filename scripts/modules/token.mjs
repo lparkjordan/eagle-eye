@@ -46,7 +46,8 @@ export class EagleEyeToken {
     if ( this.vision?.active) return true;
 
     // Otherwise, test visibility against current sight polygons
-    const tolerance = (canvas.grid.size / 2) - 2;
+    // Use wider tolerance if enabled
+    const tolerance = EagleEyeConfig.setting('increaseDetectionTolerance') ? (canvas.grid.size / 2) - 2 : 2;
     return canvas.visibility.testVisibility(this.center, {tolerance, object: this});
   }
 

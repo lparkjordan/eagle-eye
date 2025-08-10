@@ -45,7 +45,8 @@ export class MODULE {
         scope: "client", 
         config: true,
         default: false, 
-        type: Boolean
+        type: Boolean,
+        requiresReload: true
       },
       visionLocation : {
         scope: "world",
@@ -58,6 +59,13 @@ export class MODULE {
           1: `${EagleEyeConfig.MODULE.NAME}.settings.visionLocation.corners`,
           2: `${EagleEyeConfig.MODULE.NAME}.settings.visionLocation.edges`
         }
+      },
+      increaseDetectionTolerance : {
+        scope: "world",
+        config: true,
+        default: true,
+        type: Boolean,
+        requiresReload: true
       }
     };
 

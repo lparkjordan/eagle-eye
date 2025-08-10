@@ -1,9 +1,11 @@
 {
 	"eagle-eye.settings.debug.name": "Debug",
-	"eagle-eye.settings.debug.hint": "Enable debug console output",
+	"eagle-eye.settings.debug.hint": "Enable debug console output and vision visualizations",
 	"eagle-eye.settings.visionLocation.name": "Vision Location",
 	"eagle-eye.settings.visionLocation.hint": "Location for vision sources to be placed around a token",
 	"eagle-eye.settings.visionLocation.center": "Center",
 	"eagle-eye.settings.visionLocation.corners": "Corners",
-	"eagle-eye.settings.visionLocation.edges": "Edges"
+	"eagle-eye.settings.visionLocation.edges": "Edges",
+	"eagle-eye.settings.increaseDetectionTolerance.name" : "Increased detection tolerance",
+	"eagle-eye.settings.increaseDetectionTolerance.hint" : "Increase tolerance on token detection by half of the grid size, effectively extending the range of detection modes by half a grid."
 }
