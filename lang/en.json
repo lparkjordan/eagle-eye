@@ -1,11 +1,20 @@
 {
 	"eagle-eye.settings.debug.name": "Debug",
-	"eagle-eye.settings.debug.hint": "Enable debug console output and vision visualizations",
+	"eagle-eye.settings.debug.hint": "Enable debug console output",
+	"eagle-eye.settings.colorVision.name": "Color Vision",
+	"eagle-eye.settings.colorVision.hint": "Apply color filters to light token vision sources for debug purposes",
+	"eagle-eye.settings.colorLight.name": "Color Light",
+	"eagle-eye.settings.colorLight.hint": "Apply color filters to light token light sources for debug purposes",
 	"eagle-eye.settings.visionLocation.name": "Vision Location",
 	"eagle-eye.settings.visionLocation.hint": "Location for vision sources to be placed around a token",
 	"eagle-eye.settings.visionLocation.center": "Center",
 	"eagle-eye.settings.visionLocation.corners": "Corners",
 	"eagle-eye.settings.visionLocation.edges": "Edges",
+	"eagle-eye.settings.lightLocation.name": "Light Location",
+	"eagle-eye.settings.lightLocation.hint": "Location for light sources to be placed around a token",
+	"eagle-eye.settings.lightLocation.center": "Center",
+	"eagle-eye.settings.lightLocation.corners": "Corners",
+	"eagle-eye.settings.lightLocation.edges": "Edges",
 	"eagle-eye.settings.increaseDetectionTolerance.name" : "Increased detection tolerance",
 	"eagle-eye.settings.increaseDetectionTolerance.hint" : "Increase tolerance on token detection by half of the grid size, effectively extending the range of detection modes by half a grid."
 }

@@ -46,6 +46,20 @@ export class MODULE {
         config: true,
         default: false, 
         type: Boolean,
+        requiresReload: false
+      },
+      colorVision : {
+        scope: "client", 
+        config: true,
+        default: false, 
+        type: Boolean,
+        requiresReload: true
+      },
+      colorLight : {
+        scope: "client", 
+        config: true,
+        default: false, 
+        type: Boolean,
         requiresReload: true
       },
       visionLocation : {
@@ -58,7 +72,19 @@ export class MODULE {
           0: `${EagleEyeConfig.MODULE.NAME}.settings.visionLocation.center`,
           1: `${EagleEyeConfig.MODULE.NAME}.settings.visionLocation.corners`,
           2: `${EagleEyeConfig.MODULE.NAME}.settings.visionLocation.edges`
-        }
+        },
+      },
+      lightLocation : {
+          scope: "world",
+          config: true,
+          default: 1,
+          type: Number,
+          requiresReload: true, // Would prefer to just trigger a visibility update, but that doesn't regenerate sources from tokens.
+          choices: {
+            0: `${EagleEyeConfig.MODULE.NAME}.settings.lightLocation.center`,
+            1: `${EagleEyeConfig.MODULE.NAME}.settings.lightLocation.corners`,
+            2: `${EagleEyeConfig.MODULE.NAME}.settings.lightLocation.edges`
+          }
       },
       increaseDetectionTolerance : {
         scope: "world",

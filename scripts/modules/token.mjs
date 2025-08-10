@@ -14,6 +14,7 @@ export class EagleEyeToken {
   static patch() {
     libWrapper.register("eagle-eye", "Token.prototype.isVisible", this.isVisible, "OVERRIDE");
     libWrapper.register("eagle-eye", "Token.prototype.initializeVisionSource", this.initializeVisionSource, "OVERRIDE");
+    libWrapper.register("eagle-eye", "Token.prototype.initializeLightSource", this.initializeLightSource, "OVERRIDE");
     libWrapper.register("eagle-eye", "Token.prototype._destroy", function (wrapped, ...args) {
       logger.debug("token _destroy called");
       this.vision2?.visionMode?.deactivate(this.vision2);
@@ -25,6 +26,14 @@ export class EagleEyeToken {
       this.vision4?.visionMode?.deactivate(this.vision4);
       this.vision4?.destroy();
       this.vision4 = undefined;
+
+      this.light2?.destroy();
+      this.light2 = undefined;
+      this.light3?.destroy();
+      this.light3 = undefined;
+      this.light4?.destroy();
+      this.light4 = undefined;
+
       let result = wrapped(...args);
       return result;
     }, "WRAPPER");
@@ -99,7 +108,7 @@ export class EagleEyeToken {
     const sightRadiusUnadjusted = this.document.sight.range * canvas.dimensions.distancePixels;
     logger.debug(baseData);
 
-    const visionColors = EagleEyeConfig.setting('debug') ? [0xFF0000, 0xFFE119, 0x00FF00, 0x0000FF] : [baseData.color, baseData.color, baseData.color, baseData.color];
+    const visionColors = EagleEyeConfig.setting('colorVision') ? [0xFF0000, 0xFFE119, 0x00FF00, 0x0000FF] : [baseData.color, baseData.color, baseData.color, baseData.color];
 
     if (EagleEyeConfig.setting('visionLocation') == 1) {
       // Corner vision
@@ -135,6 +144,92 @@ export class EagleEyeToken {
       refreshVision: true,
       refreshLighting: true
     });
+  }
+
+  static initializeLightSource({deleted=false}={}) {
+    logger.debug("initializeLightSource called")
+    const sourceId = this.sourceId;
+    const wasLight = canvas.effects.lightSources.has(sourceId);
+    const wasDarkness = canvas.effects.darknessSources.has(sourceId);
+    const isDarkness = this.document.light.negative;
+    const perceptionFlags = {
+      refreshEdges: wasDarkness || isDarkness,
+      initializeVision: wasDarkness || isDarkness,
+      initializeLighting: wasDarkness || isDarkness,
+      refreshLighting: true,
+      refreshVision: true
+    };
+
+    // Remove the light source from the active collection
+    if ( deleted || !this._isLightSource() ) {
+      if ( !this.light ) return;
+      if ( this.light.active ) canvas.perception.update(perceptionFlags);
+      this.light?.destroy();
+      this.light = undefined;
+      this.light2?.destroy();
+      this.light2 = undefined;
+      this.light3?.destroy();
+      this.light3 = undefined;
+      this.light4?.destroy();
+      this.light4 = undefined;
+      return;
+    }
+
+    // Re-create the source if it switches darkness state
+    if ( (wasLight && isDarkness) || (wasDarkness && !isDarkness) ) {
+      this.light?.destroy();
+      this.light = undefined;
+      this.light2?.destroy();
+      this.light2 = undefined;
+      this.light3?.destroy();
+      this.light3 = undefined;
+      this.light4?.destroy();
+      this.light4 = undefined;
+    }
+
+    // Create light sources if necessary
+    const lightSourceClass = this.document.light.negative ? CONFIG.Canvas.darknessSourceClass : CONFIG.Canvas.lightSourceClass;
+    this.light ??= new lightSourceClass({sourceId: this.sourceId, object: this});
+    this.light2 ??= new lightSourceClass({sourceId: this.sourceId + "_2", object: this});
+    this.light3 ??= new lightSourceClass({sourceId: this.sourceId + "_3", object: this});
+    this.light4 ??= new lightSourceClass({sourceId: this.sourceId + "_4", object: this});
+
+    // Re-initialize source data and add to the active collection
+    const baseData = this._getLightSourceData();
+    const dimRadiusUnadjusted = this.document.light.dim * canvas.dimensions.distancePixels;
+    const brightRadiusUnadjusted = this.document.light.bright * canvas.dimensions.distancePixels;
+    logger.debug(baseData);
+
+    const lightColors = EagleEyeConfig.setting('colorLight') ? [0xFF0000, 0xFFE119, 0x00FF00, 0x0000FF] : [baseData.color, baseData.color, baseData.color, baseData.color];
+
+    // TODO using vision location config for light location as well.
+    if (EagleEyeConfig.setting('visionLocation') == 1) {
+      // Corner light
+      this.light.initialize({...baseData,  dim: dimRadiusUnadjusted, bright: brightRadiusUnadjusted, x: baseData.x + this.w/2 - 2, y: baseData.y + this.h/2 - 2, color: lightColors[0]});
+      this.light2.initialize({...baseData, dim: dimRadiusUnadjusted, bright: brightRadiusUnadjusted, x: baseData.x + this.w/2 - 2, y: baseData.y - this.h/2 + 2, color: lightColors[1]});
+      this.light3.initialize({...baseData, dim: dimRadiusUnadjusted, bright: brightRadiusUnadjusted, x: baseData.x - this.w/2 + 2, y: baseData.y - this.h/2 + 2, color: lightColors[2]});
+      this.light4.initialize({...baseData, dim: dimRadiusUnadjusted, bright: brightRadiusUnadjusted, x: baseData.x - this.w/2 + 2, y: baseData.y + this.h/2 - 2, color: lightColors[3]});
+
+      this.light2.add();
+      this.light3.add();
+      this.light4.add();
+    } else if (EagleEyeConfig.setting('visionLocation') == 2) {
+      // Edge light
+      this.light.initialize({...baseData,  dim: dimRadiusUnadjusted, bright: brightRadiusUnadjusted, y: baseData.y + this.h/2 - 2, color: lightColors[0]});
+      this.light2.initialize({...baseData, dim: dimRadiusUnadjusted, bright: brightRadiusUnadjusted, x: baseData.x + this.w/2 - 2, color: lightColors[1]});
+      this.light3.initialize({...baseData, dim: dimRadiusUnadjusted, bright: brightRadiusUnadjusted, y: baseData.y - this.h/2 + 2, color: lightColors[2]});
+      this.light4.initialize({...baseData, dim: dimRadiusUnadjusted, bright: brightRadiusUnadjusted, x: baseData.x - this.w/2 + 2, color: lightColors[3]});
+
+      this.light2.add();
+      this.light3.add();
+      this.light4.add();
+    } else {
+      // Default (Center) vision
+      this.light.initialize(baseData);
+    }
+    this.light.add();
+
+    canvas.perception.update(perceptionFlags);
   }
 
 }
