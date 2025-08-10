@@ -114,9 +114,9 @@ export class EagleEyeToken {
     } else if (EagleEyeConfig.setting('visionLocation') == 2) {
       // Edge vision
       this.vision.initialize({...baseData,  radius: sightRadiusUnadjusted, y: baseData.y + this.h/2 - 2, color: visionColors[0]});
-      this.vision2.initialize({...baseData, radius: sightRadiusUnadjusted, x: baseData.x + this.w/2 + 2, color: visionColors[1]});
-      this.vision3.initialize({...baseData, radius: sightRadiusUnadjusted, y: baseData.y - this.h/2 - 2, color: visionColors[2]});
-      this.vision4.initialize({...baseData, radius: sightRadiusUnadjusted, x: baseData.x - this.w/2 - 2, color: visionColors[3]});
+      this.vision2.initialize({...baseData, radius: sightRadiusUnadjusted, x: baseData.x + this.w/2 - 2, color: visionColors[1]});
+      this.vision3.initialize({...baseData, radius: sightRadiusUnadjusted, y: baseData.y - this.h/2 + 2, color: visionColors[2]});
+      this.vision4.initialize({...baseData, radius: sightRadiusUnadjusted, x: baseData.x - this.w/2 + 2, color: visionColors[3]});
 
       this.vision2.add();
       this.vision3.add();
