@@ -37,12 +37,6 @@ export class EagleEyeToken {
       let result = wrapped(...args);
       return result;
     }, "WRAPPER");
-    libWrapper.register("eagle-eye", "foundry.canvas.placeables.Token.prototype.checkCollision", function(wrapped, ...args) {
-      console.log("Checking collision with args:");
-      console.log(args);
-      let result = wrapped(...args);
-      return result;
-    }, "WRAPPER")
   }
 
 
@@ -128,7 +122,6 @@ export class EagleEyeToken {
       if (!CONFIG.Canvas.polygonBackends["sight"].testCollision(this.center, this.vision.origin, {type: "sight", mode: "any", source: this.vision, level: level})) {
         this.vision.add();
       } else {
-        console.log("Collision!")
         this.vision?.visionMode?.deactivate(this.vision);
         this.vision?.destroy();
         this.vision = undefined;
@@ -136,7 +129,6 @@ export class EagleEyeToken {
       if (!CONFIG.Canvas.polygonBackends["sight"].testCollision(this.center, this.vision2.origin, {type: "sight", mode: "any", source: this.vision2, level: level})) {
         this.vision2.add();
       } else {
-        console.log("Collision!")
         this.vision2?.visionMode?.deactivate(this.vision2);
         this.vision2?.destroy();
         this.vision2 = undefined;
@@ -144,7 +136,6 @@ export class EagleEyeToken {
       if (!CONFIG.Canvas.polygonBackends["sight"].testCollision(this.center, this.vision3.origin, {type: "sight", mode: "any", source: this.vision3, level: level})) {
         this.vision3.add();
       } else {
-        console.log("Collision!")
         this.vision3?.visionMode?.deactivate(this.vision3);
         this.vision3?.destroy();
         this.vision3 = undefined;
@@ -152,7 +143,6 @@ export class EagleEyeToken {
       if (!CONFIG.Canvas.polygonBackends["sight"].testCollision(this.center, this.vision4.origin, {type: "sight", mode: "any", source: this.vision4, level: level})) {
         this.vision4.add();
       } else {
-        console.log("Collision!")
         this.vision4?.visionMode?.deactivate(this.vision4);
         this.vision4?.destroy();
         this.vision4 = undefined;
@@ -167,7 +157,6 @@ export class EagleEyeToken {
       if (!CONFIG.Canvas.polygonBackends["sight"].testCollision(this.center, this.vision.origin, {type: "sight", mode: "any", source: this.vision, level: level})) {
         this.vision.add();
       } else {
-        console.log("Collision!")
         this.vision?.visionMode?.deactivate(this.vision);
         this.vision?.destroy();
         this.vision = undefined;
@@ -175,7 +164,6 @@ export class EagleEyeToken {
       if (!CONFIG.Canvas.polygonBackends["sight"].testCollision(this.center, this.vision2.origin, {type: "sight", mode: "any", source: this.vision2, level: level})) {
         this.vision2.add();
       } else {
-        console.log("Collision!")
         this.vision2?.visionMode?.deactivate(this.vision2);
         this.vision2?.destroy();
         this.vision2 = undefined;
@@ -183,7 +171,6 @@ export class EagleEyeToken {
       if (!CONFIG.Canvas.polygonBackends["sight"].testCollision(this.center, this.vision3.origin, {type: "sight", mode: "any", source: this.vision3, level: level})) {
         this.vision3.add();
       } else {
-        console.log("Collision!")
         this.vision3?.visionMode?.deactivate(this.vision3);
         this.vision3?.destroy();
         this.vision3 = undefined;
@@ -191,7 +178,6 @@ export class EagleEyeToken {
       if (!CONFIG.Canvas.polygonBackends["sight"].testCollision(this.center, this.vision4.origin, {type: "sight", mode: "any", source: this.vision4, level: level})) {
         this.vision4.add();
       } else {
-        console.log("Collision!")
         this.vision4?.visionMode?.deactivate(this.vision4);
         this.vision4?.destroy();
         this.vision4 = undefined;
