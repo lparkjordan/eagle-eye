@@ -12,10 +12,10 @@ export class EagleEyeToken {
   static _super = {};
 
   static patch() {
-    libWrapper.register("eagle-eye", "Token.prototype.isVisible", this.isVisible, "OVERRIDE");
-    libWrapper.register("eagle-eye", "Token.prototype.initializeVisionSource", this.initializeVisionSource, "OVERRIDE");
-    libWrapper.register("eagle-eye", "Token.prototype.initializeLightSource", this.initializeLightSource, "OVERRIDE");
-    libWrapper.register("eagle-eye", "Token.prototype._destroy", function (wrapped, ...args) {
+    libWrapper.register("eagle-eye", "foundry.canvas.placeables.Token.prototype.isVisible", this.isVisible, "OVERRIDE");
+    libWrapper.register("eagle-eye", "foundry.canvas.placeables.Token.prototype.initializeVisionSource", this.initializeVisionSource, "OVERRIDE");
+    libWrapper.register("eagle-eye", "foundry.canvas.placeables.Token.prototype.initializeLightSource", this.initializeLightSource, "OVERRIDE");
+    libWrapper.register("eagle-eye", "foundry.canvas.placeables.Token.prototype._destroy", function (wrapped, ...args) {
       logger.debug("token _destroy called");
       this.vision2?.visionMode?.deactivate(this.vision2);
       this.vision2?.destroy();

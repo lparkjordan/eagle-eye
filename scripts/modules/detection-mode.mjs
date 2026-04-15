@@ -12,7 +12,7 @@ export class EagleEyeDetectionMode {
   static _super = {};
 
   static patch() {
-    libWrapper.register("eagle-eye", "DetectionMode.prototype._testRange", this.testRange, "OVERRIDE");
+    libWrapper.register("eagle-eye", "foundry.canvas.perception.DetectionMode.prototype._testRange", this.testRange, "OVERRIDE");
   }
 
   static testRange(visionSource, mode, target, test) {
