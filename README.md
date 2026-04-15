@@ -1,4 +1,4 @@
-# Eagle Eye ALPHA
+# Eagle Eye
 
 Adds options for calculating vision from 4 corners or edges of a token's square (rather than from the center).
 
