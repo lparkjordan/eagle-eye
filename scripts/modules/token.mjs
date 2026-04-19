@@ -253,6 +253,8 @@ export class EagleEyeToken {
 
     const lightColors = EagleEyeConfig.setting('colorLight') ? [0xFF0000, 0xFFE119, 0x00FF00, 0x0000FF] : [baseData.color, baseData.color, baseData.color, baseData.color];
 
+    const level = this.scene.levels.get(this.document._source.level);
+
     // TODO using vision location config for light location as well.
     if (EagleEyeConfig.setting('visionLocation') == 1) {
       // Corner light
@@ -260,10 +262,30 @@ export class EagleEyeToken {
       this.light2.initialize({...baseData, dim: dimRadiusUnadjusted, bright: brightRadiusUnadjusted, x: baseData.x + this.w/2 - 2, y: baseData.y - this.h/2 + 2, color: lightColors[1]});
       this.light3.initialize({...baseData, dim: dimRadiusUnadjusted, bright: brightRadiusUnadjusted, x: baseData.x - this.w/2 + 2, y: baseData.y - this.h/2 + 2, color: lightColors[2]});
       this.light4.initialize({...baseData, dim: dimRadiusUnadjusted, bright: brightRadiusUnadjusted, x: baseData.x - this.w/2 + 2, y: baseData.y + this.h/2 - 2, color: lightColors[3]});
-
-      this.light2.add();
-      this.light3.add();
-      this.light4.add();
+      if (!CONFIG.Canvas.polygonBackends["light"].testCollision(this.center, this.light.origin, {type: "light", mode: "any", source: this.light, level: level})) {
+        this.light.add();
+      } else {
+        this.light?.destroy();
+        this.light = undefined;
+      }
+      if (!CONFIG.Canvas.polygonBackends["light"].testCollision(this.center, this.light2.origin, {type: "light", mode: "any", source: this.light2, level: level})) {
+        this.light2.add();
+      } else {
+        this.light2?.destroy();
+        this.light2 = undefined;
+      }
+      if (!CONFIG.Canvas.polygonBackends["light"].testCollision(this.center, this.light3.origin, {type: "light", mode: "any", source: this.light3, level: level})) {
+        this.light3.add();
+      } else {
+        this.light3?.destroy();
+        this.light3 = undefined;
+      }
+      if (!CONFIG.Canvas.polygonBackends["light"].testCollision(this.center, this.light4.origin, {type: "light", mode: "any", source: this.light4, level: level})) {
+        this.light4.add();
+      } else {
+        this.light4?.destroy();
+        this.light4 = undefined;
+      }
     } else if (EagleEyeConfig.setting('visionLocation') == 2) {
       // Edge light
       this.light.initialize({...baseData,  dim: dimRadiusUnadjusted, bright: brightRadiusUnadjusted, y: baseData.y + this.h/2 - 2, color: lightColors[0]});
@@ -271,14 +293,35 @@ export class EagleEyeToken {
       this.light3.initialize({...baseData, dim: dimRadiusUnadjusted, bright: brightRadiusUnadjusted, y: baseData.y - this.h/2 + 2, color: lightColors[2]});
       this.light4.initialize({...baseData, dim: dimRadiusUnadjusted, bright: brightRadiusUnadjusted, x: baseData.x - this.w/2 + 2, color: lightColors[3]});
 
-      this.light2.add();
-      this.light3.add();
-      this.light4.add();
+      if (!CONFIG.Canvas.polygonBackends["light"].testCollision(this.center, this.light.origin, {type: "light", mode: "any", source: this.light, level: level})) {
+        this.light.add();
+      } else {
+        this.light?.destroy();
+        this.light = undefined;
+      }
+      if (!CONFIG.Canvas.polygonBackends["light"].testCollision(this.center, this.light2.origin, {type: "light", mode: "any", source: this.light2, level: level})) {
+        this.light2.add();
+      } else {
+        this.light2?.destroy();
+        this.light2 = undefined;
+      }
+      if (!CONFIG.Canvas.polygonBackends["light"].testCollision(this.center, this.light3.origin, {type: "light", mode: "any", source: this.light3, level: level})) {
+        this.light3.add();
+      } else {
+        this.light3?.destroy();
+        this.light3 = undefined;
+      }
+      if (!CONFIG.Canvas.polygonBackends["light"].testCollision(this.center, this.light4.origin, {type: "light", mode: "any", source: this.light4, level: level})) {
+        this.light4.add();
+      } else {
+        this.light4?.destroy();
+        this.light4 = undefined;
+      }
     } else {
-      // Default (Center) vision
+      // Default (Center) light
       this.light.initialize(baseData);
+      this.light.add();
     }
-    this.light.add();
 
     canvas.perception.update(perceptionFlags);
   }
