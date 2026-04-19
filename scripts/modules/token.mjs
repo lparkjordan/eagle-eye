@@ -255,8 +255,7 @@ export class EagleEyeToken {
 
     const level = this.scene.levels.get(this.document._source.level);
 
-    // TODO using vision location config for light location as well.
-    if (EagleEyeConfig.setting('visionLocation') == 1) {
+    if (EagleEyeConfig.setting('lightLocation') == 1) {
       // Corner light
       this.light.initialize({...baseData,  dim: dimRadiusUnadjusted, bright: brightRadiusUnadjusted, x: baseData.x + this.w/2 - 2, y: baseData.y + this.h/2 - 2, color: lightColors[0]});
       this.light2.initialize({...baseData, dim: dimRadiusUnadjusted, bright: brightRadiusUnadjusted, x: baseData.x + this.w/2 - 2, y: baseData.y - this.h/2 + 2, color: lightColors[1]});
@@ -286,7 +285,7 @@ export class EagleEyeToken {
         this.light4?.destroy();
         this.light4 = undefined;
       }
-    } else if (EagleEyeConfig.setting('visionLocation') == 2) {
+    } else if (EagleEyeConfig.setting('lightLocation') == 2) {
       // Edge light
       this.light.initialize({...baseData,  dim: dimRadiusUnadjusted, bright: brightRadiusUnadjusted, y: baseData.y + this.h/2 - 2, color: lightColors[0]});
       this.light2.initialize({...baseData, dim: dimRadiusUnadjusted, bright: brightRadiusUnadjusted, x: baseData.x + this.w/2 - 2, color: lightColors[1]});

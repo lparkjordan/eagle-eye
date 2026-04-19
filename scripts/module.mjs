@@ -65,7 +65,7 @@ export class MODULE {
       visionLocation : {
         scope: "world",
         config: true,
-        default: 1,
+        default: 2,
         type: Number,
         requiresReload: true, // Would prefer to just trigger a visibility update, but that doesn't regenerate sources from tokens.
         choices: {
@@ -77,7 +77,7 @@ export class MODULE {
       lightLocation : {
           scope: "world",
           config: true,
-          default: 1,
+          default: 2,
           type: Number,
           requiresReload: true, // Would prefer to just trigger a visibility update, but that doesn't regenerate sources from tokens.
           choices: {
