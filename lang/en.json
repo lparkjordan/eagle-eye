@@ -16,5 +16,7 @@
 	"eagle-eye.settings.lightLocation.corners": "Corners",
 	"eagle-eye.settings.lightLocation.edges": "Edges",
 	"eagle-eye.settings.increaseDetectionTolerance.name" : "Increased detection tolerance",
-	"eagle-eye.settings.increaseDetectionTolerance.hint" : "Increase tolerance on token detection by half of the grid size, effectively extending the range of detection modes by half a grid."
+	"eagle-eye.settings.increaseDetectionTolerance.hint" : "Increase tolerance on token detection by half of the grid size, effectively extending the range of detection modes by half a grid.",
+	"eagle-eye.settings.backoffPixels.name" : "Backoff Pixels",
+	"eagle-eye.settings.backoffPixels.hint" : "Backoff from edges for placement of vision sources"
 }

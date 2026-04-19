@@ -92,6 +92,15 @@ export class MODULE {
         default: true,
         type: Boolean,
         requiresReload: true
+      },
+      backoffPixels : {
+        scope: "world",
+        config: true,
+        requiresReload: true,
+        type: new foundry.data.fields.NumberField({
+          min: 0, max: 10, step: 1,
+          initial: 2, nullable: false
+        })
       }
     };
 
