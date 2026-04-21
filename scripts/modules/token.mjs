@@ -190,6 +190,16 @@ export class EagleEyeToken {
       this.vision.add();
     }
 
+    // If we deleted this.vision earlier, put back a default.
+    if (!this.vision) {
+      this.vision = new CONFIG.Canvas.visionSourceClass({sourceId: this.sourceId, object: this});
+      for ( const state in blindedStates ) {
+        this.vision.blinded[state] = blindedStates[state];
+      }
+      this.vision.initialize(baseData);
+      this.vision.add();
+    }
+
     canvas.perception.update({
       initializeVisionModes: !wasVision
         || (this.vision.active !== previousActive)
